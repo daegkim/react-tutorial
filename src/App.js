@@ -1,59 +1,92 @@
 import React from 'react';
 import './App.css';
 import Header from './components/Header'
-import List from './components/List'
-import Article from './components/Article'
-import CRUD from './components/CRUD'
+import List from './components/List.jsx'
+import Article from './components/Article.jsx'
+import Buttons from './components/Buttons.jsx'
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      header_title: 'Hello World!',
-      toggle: 'false',
-      list:
-        [
-          { id: 1, name: 'HTML', desc: 'This is HTML...' },
-          { id: 2, name: 'CSS', desc: 'This is CSS...' },
-          { id: 3, name: 'JavaScript', desc: 'This is JavaScript...' }
-        ],
-      selectedItem: 0,
-      mode: 'CREATE'
+      header_title: 'Hello World!!!',
+      toggle: false,
+      article_list:
+      [
+        { id: 1, title: 'HTML', desc: 'This is HTML...' },
+        { id: 2, title: 'CSS', desc: 'This is CSS...' },
+        { id: 3, title: 'JavaScript', desc: 'This is JavaScript...' }
+      ],
+      selected_id: 0,
+      mode: 'READ'
+    }
+  }
+
+  onClickHeader = () => {
+    alert(this.state.toggle)
+    this.setState({
+      toggle: !this.state.toggle
+    })
+  }
+
+  onClickItem = (_id) => {
+    this.changeMode('READ')
+    this.setState({
+      selected_id: Number(_id),
+    })
+  }
+
+  findItemById = (_id) => {
+    var item = null
+
+    for(var i in this.state.article_list){
+      if(this.state.article_list[i].id === _id){
+        item = this.state.article_list[i]
+        return item
+      }
+    }
+
+    if(item === null){
+      item = {
+        id: 0,
+        title: 'WELCOME!!!',
+        desc: null
+      }
+    }
+
+    return item
+  }
+
+  changeMode = (_mode) => {
+    this.setState({
+      mode: _mode
+    })
+  }
+
+  onClickButtons = (_mode) => {
+    this.changeMode(_mode)
+  }
+
+  onClickSave = (_mode, _item) => {
+    var id = 0
+    if(_mode === 'CREATE'){
+
     }
   }
 
   render() {
+    var selected_item = this.findItemById(this.state.selected_id)
+
     return (
       <div>
-        <Header header_title={this.state.header_title} onClickHeader={
-          function () {
-            if (this.state.toggle === 'false') {
-              alert('false')
-              this.setState({ toggle: 'true' })
-            }
-            else {
-              alert('true')
-              this.setState({ toggle: 'false' })
-            }
-          }.bind(this)
-        }></Header>
+        <Header header_title={this.state.header_title} onClickHeader={this.onClickHeader}></Header>
 
-        <List list={this.state.list} onClickItem={
-          function (i, e) {
-            this.setState({ selectedItem: Number(i), mode: 'READ' })
-          }.bind(this)
-        }></List>
+        <List list={this.state.article_list} onClickItem={this.onClickItem}></List>
 
-        <Article
-          title={this.state.list[this.state.selectedItem].name}
-          desc={this.state.list[this.state.selectedItem].desc}
-          mode={this.state.mode}
-        ></Article>
-
-        <CRUD onClickButtons={function(_mode, e){
-          this.setState({mode: _mode})
-          if(_mode === 'DELETE') alert('Do you want to delete?')
-        }.bind(this)}></CRUD>
+        <Article mode={this.state.mode}
+        selected_item={selected_item}
+        onClickButtons={this.onClickButtons}
+        onClickSave={this.onClickSave}></Article>
       </div>
     )
   }
