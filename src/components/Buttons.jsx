@@ -5,42 +5,19 @@ class Buttons extends React.Component {
     super(props)
   }
 
-  getButtons = () => {
-    if(this.props.mode === 'READ' || this.props.mode === 'DELETE'){
-      return (
-        <div>
-          <button onClick={function () {
-            this.props.onClickButtons('CREATE')
-          }.bind(this)}>CREATE</button>
-
-          <button onClick={function () {
-            this.props.onClickButtons('UPDATE')
-          }.bind(this)}>UPDATE</button>
-
-          <button onClick={function () {
-            this.props.onClickButtons('DELETE')
-          }.bind(this)}>DELETE</button>
-        </div>
-      )
-    }
-    else {
-      return (
-        <div>
-          <button onClick={function () {
-            this.props.onClickSave()
-          }.bind(this)}>SAVE</button>
-
-          <button onClick={function () {
-            this.props.onClickButtons('READ')
-          }.bind(this)}>CANCEL</button>
-        </div>
-      )
-    }
-  }
   render() {
     return (
       <div>
-        {this.getButtons()}
+        <button onClick={function(){
+          this.props.changeMode('CREATE')
+        }.bind(this)}>CREATE</button>
+        <button onClick={function(){
+          this.props.changeMode('UPDATE')
+        }.bind(this)}>UPDATE</button>
+        <button onClick={function(){
+          this.props.onClickDelete(this.props.selected_item)
+          this.props.changeMode('READ')
+        }.bind(this)}>DELETE</button>
       </div>
     )
   }
