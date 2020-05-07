@@ -66,15 +66,9 @@ class EditForm extends React.Component {
         <button onClick={function(){
           this.props.onClickSave(this.props.mode, this.state.item)
           this.props.changeMode('READ')
-          this.setState({
-            isInit: true
-          })
         }.bind(this)}>SAVE</button>
         <button onClick={function(){
           this.props.changeMode('READ')
-          this.setState({
-            isInit: true
-          })
         }.bind(this)}>CANCEL</button>
       </div>
     )
