@@ -3,30 +3,38 @@ import React from 'react'
 class EditForm extends React.Component {
   constructor(props) {
     super(props)
+    //deep copy
+    //deep copy를 하지 않으면 props값이 변경되는 것을 볼 수 있었다.
+    //App의 state -> Edit의 props -> Edit의 state가 되어 deep copy를 하지 않고 Edit의 state를 변경하면
+    //결국 App의 state까지 변경되는 것을 확인할 수 있었다.
+    //즉, state에 props를 할당할 때는 deep copy를 사용하는 것이 중요하다
+    let _item = {
+      id: this.props.selected_item.id,
+      title: this.props.selected_item.title,
+      desc: this.props.selected_item.desc
+    }
     this.state = {
-      item: this.props.selected_item,
-      isInit: true
+      item: _item
     }
   }
-  onClickSave = (_id, _title, _desc) => {
 
+  componentWillMount = () => {
+    if(this.props.mode === 'CREATE'){
+      this.state.item = {id: 0, title: '', desc: ''}
+    }
+    else if(this.props.mode === 'UPDATE'){
+      //deep copy
+      let _item = {
+        id: this.props.selected_item.id,
+        title: this.props.selected_item.title,
+        desc: this.props.selected_item.desc
+      }
+      this.state.item = _item
+      //Object.assign()을 사용하여 깊은 복사 가능
+    }
   }
 
   render() {
-    //1. 새롭게 렌더링 될 때마다 생성자가 호출되지 않음
-    //2. UPDATE버튼을 눌러서 새로 렌더링 되어도 this.state.item은 EditForm이 생성된 순간의 값으로 고정됨
-    //3. 하지만 UPDATE버튼을 누르면 this.state.item은 this.props.selected_item값이 되어야 함
-    //4. 이를 위해서 단순히 this.state.item = this.props.selected_item을 하면 textarea에 글을 입력하면서 렌더링될 때 값이 고정
-    //5. 이를 해결하기 위해 isInit 사용
-    if(this.state.isInit){
-      if(this.props.mode === 'CREATE'){
-        this.state.item = {id: 0, title: '', desc: ''}
-      }
-      else if(this.props.mode === 'UPDATE'){
-        this.state.item = this.props.selected_item
-      }
-      this.state.isInit = !this.state.isInit
-    }
     return (
       <div className='App-article'>
         <form>

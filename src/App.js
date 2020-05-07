@@ -4,8 +4,6 @@ import Header from './components/Header'
 import MainContent from './components/MainContent'
 import EditForm from './components/EditForm'
 import List from './components/List.jsx'
-import Article from './components/Article.jsx'
-import Buttons from './components/Buttons.jsx'
 
 class App extends React.Component {
   constructor() {
@@ -20,13 +18,12 @@ class App extends React.Component {
         { id: 3, title: 'JavaScript', desc: 'This is JavaScript...' }
       ],
       selected_id: 0,
-      mode: 'READ'
+      mode: 'READ',
     }
   }
 
   //for header
   onClickHeader = () => {
-    alert(this.state.toggle)
     this.setState({
       toggle: !this.state.toggle,
       selected_id: 0,
@@ -48,7 +45,7 @@ class App extends React.Component {
       item = {
         id: 0,
         title: this.state.header_title,
-        desc: 'welcome!'
+        desc: this.state.toggle.toString()
       }
     }
     else{
@@ -65,7 +62,7 @@ class App extends React.Component {
 
   createItem = (_item) => {
     var len = this.state.article_list.length
-    var id = this.state.article_list[len - 1].id + 1
+    var id = len === 0 ? 1 : this.state.article_list[len - 1].id + 1
     var copy_list = this.state.article_list.concat()
     copy_list.push({ id: id, title: _item.title, desc: _item.desc })
     this.setState({
@@ -89,7 +86,17 @@ class App extends React.Component {
       })
   }
 
+  deleteItem = (_item) => {
+    var copy_list = this.state.article_list.concat()
+    copy_list = copy_list.filter(item => item.id !== _item.id)
+    this.setState({
+      article_list: copy_list,
+      selected_id: 0
+    })
+  }
+
   onClickSave = (_mode, _item) => {
+    console.log('onClickSave')
     if(_mode === 'CREATE'){
       this.createItem(_item)
     }
@@ -99,12 +106,7 @@ class App extends React.Component {
   }
 
   onClickDelete = (_item) => {
-    var copy_list = this.state.article_list.concat()
-    copy_list = copy_list.filter(item => item.id !== _item.id)
-    this.setState({
-      article_list: copy_list,
-      selected_id: 0
-    })
+    this.deleteItem(_item)
   }
 
   getArticle = () => {
@@ -134,7 +136,8 @@ class App extends React.Component {
       mode={this.state.mode}
       selected_item={selected_item}
       changeMode={this.changeMode}
-      onClickSave={this.onClickSave}></EditForm>
+      onClickSave={this.onClickSave}
+      ></EditForm>
     )
   }
 
