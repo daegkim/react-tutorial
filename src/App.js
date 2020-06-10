@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header'
 import MainContent from './components/MainContent'
 import EditForm from './components/EditForm'
-import List from './components/List.jsx'
+import List from './components/List'
 
 class App extends React.Component {
   constructor() {
@@ -11,15 +11,28 @@ class App extends React.Component {
     this.state = {
       header_title: 'Hello World!!!',
       toggle: false,
-      article_list:
-      [
-        { id: 1, title: 'HTML', desc: 'This is HTML...' },
-        { id: 2, title: 'CSS', desc: 'This is CSS...' },
-        { id: 3, title: 'JavaScript', desc: 'This is JavaScript...' }
-      ],
+      article_list: [],
       selected_id: 0,
       mode: 'READ',
     }
+  }
+
+  componentDidMount = () => {
+    this.getArticleList((res) => {
+      this.setState({article_list: res})
+    })
+  }
+
+  getArticleList = (callback) => {
+    fetch('http://localhost:3001/getArticleList')
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      if(callback !== undefined){
+        callback(res)
+      }
+    })
   }
 
   //for header
@@ -40,10 +53,12 @@ class App extends React.Component {
   }
 
   findItemById = (_id) => {
-    var item = this.state.article_list.filter(item => item.id === _id)
+    var item = this.state.article_list.filter((item) => {
+      return item._id === _id
+    })
     if(item.length === 0){
       item = {
-        id: 0,
+        _id: 0,
         title: this.state.header_title,
         desc: this.state.toggle.toString()
       }
@@ -62,12 +77,30 @@ class App extends React.Component {
 
   createItem = (_item) => {
     var len = this.state.article_list.length
-    var id = len === 0 ? 1 : this.state.article_list[len - 1].id + 1
+    var id = len === 0 ? 1 : this.state.article_list[len - 1]._id + 1
     var copy_list = this.state.article_list.concat()
-    copy_list.push({ id: id, title: _item.title, desc: _item.desc })
-    this.setState({
-      article_list: copy_list,
-      selected_id: id
+    var newArticle = { _id: id, title: _item.title, desc: _item.desc }
+    copy_list.push(newArticle)
+
+    //console.log(JSON.stringify(newArticle))
+
+    fetch('http://localhost:3001/createArticle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'  
+      },
+      body: JSON.stringify(newArticle)
+    })
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      if(res === 'OK'){
+        this.setState({
+          article_list: copy_list,
+          selected_id: id
+        })
+      }
     })
   }
 
@@ -96,7 +129,6 @@ class App extends React.Component {
   }
 
   onClickSave = (_mode, _item) => {
-    console.log('onClickSave')
     if(_mode === 'CREATE'){
       this.createItem(_item)
     }

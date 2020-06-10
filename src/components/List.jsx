@@ -10,12 +10,12 @@ class List extends React.Component {
     var display_list = []
     for (var i in list) {
       display_list.push(
-        <li key={list[i].id}>
+        <li key={list[i]._id}>
           <a href={'/'} onClick={
             //To use variable 'i', it must be added to input & bind parameter.
             function (i, e) {
               e.preventDefault()
-              this.props.onClickItem(list[i].id)
+              this.props.onClickItem(list[i]._id)
             }.bind(this, i)
           }>
           {list[i].title}
