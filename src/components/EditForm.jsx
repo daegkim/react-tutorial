@@ -9,29 +9,33 @@ class EditForm extends React.Component {
     //결국 App의 state까지 변경되는 것을 확인할 수 있었다.
     //즉, state에 props를 할당할 때는 deep copy를 사용하는 것이 중요하다
     let _item = {
-      id: this.props.selected_item.id,
+      _id: 0,
       title: this.props.selected_item.title,
       desc: this.props.selected_item.desc
     }
     this.state = {
-      item: _item
+      item: _item,
+      mode: 'CREATE'
     }
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     if(this.props.mode === 'CREATE'){
-      this.state.item = {id: 0, title: '', desc: ''}
+      this.state.item = {_id: 0, title: '', desc: ''}
     }
     else if(this.props.mode === 'UPDATE'){
       //deep copy
       let _item = {
-        id: this.props.selected_item.id,
+        _id: this.props.selected_item._id,
         title: this.props.selected_item.title,
         desc: this.props.selected_item.desc
       }
       this.state.item = _item
       //Object.assign()을 사용하여 깊은 복사 가능
     }
+    this.setState({
+      mode: 'WRITE'
+    })
   }
 
   render() {
@@ -41,7 +45,7 @@ class EditForm extends React.Component {
           <label>Title</label>
           <br />
           <textarea
-          value={this.state.item.title}
+          value={this.state.mode === 'CREATE' ? '' : this.state.item.title}
           onChange={function(e){
             var item = this.state.item
             item.title = e.target.value
@@ -53,7 +57,7 @@ class EditForm extends React.Component {
           <label>Desc</label>
           <br />
           <textarea
-          value={this.state.item.desc}
+          value={this.state.mode === 'CREATE' ? '' : this.state.item.desc}
           onChange={function(e){
             var item = this.state.item
             item.desc = e.target.value

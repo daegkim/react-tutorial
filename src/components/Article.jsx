@@ -6,7 +6,7 @@ class Article extends React.Component {
     super(props)
     console.log('Article')
     this.state = {
-      id: this.props.selected_item.id,
+      _id: this.props.selected_item._id,
       title: this.props.selected_item.title,
       desc: this.props.selected_item.desc,
       isInit: true
@@ -49,7 +49,7 @@ class Article extends React.Component {
         </div>
       )
     }
-    else if(this.props.mode === 'UPDATE' && this.props.selected_item.id !== 0){
+    else if(this.props.mode === 'UPDATE' && this.props.selected_item._id !== 0){
       return (
         <div>
           <label>Title</label>
@@ -91,7 +91,7 @@ class Article extends React.Component {
   render() {
     //Create나 Update일 때
     if(this.state.isInit){
-      this.state.id = this.props.selected_item.id
+      this.state._id = this.props.selected_item._id
       this.state.title = this.props.selected_item.title
       this.state.desc = this.props.selected_item.desc
       this.state.isInit = !this.state.isInit
@@ -105,7 +105,7 @@ class Article extends React.Component {
           {this.getTitle()}
           {this.getDesc()}
           <Buttons mode={this.props.mode}
-          item={{id:this.state.id, title:this.state.title, desc:this.state.desc}}
+          item={{_id:this.state._id, title:this.state.title, desc:this.state.desc}}
           changeMode={this.props.changeMode}
           onClickButtons={this.props.onClickButtons}
           onClickSave={this.props.onClickSave}
@@ -118,7 +118,7 @@ class Article extends React.Component {
         <div className='App-article'>
           {this.getForm()}
           <Buttons mode={this.props.mode}
-          item={{id:this.state.id, title:this.state.title, desc:this.state.desc}}
+          item={{_id:this.state._id, title:this.state.title, desc:this.state.desc}}
           changeMode={this.props.changeMode}
           onClickButtons={this.props.onClickButtons}
           onClickSave={this.props.onClickSave}

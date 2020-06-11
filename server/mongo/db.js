@@ -35,6 +35,27 @@ class db {
             callback()
         })
     }
+
+    updateArticle = (changedArticle, callback) => {
+        var trgtArticle = {_id: changedArticle._id}
+        article.updateOne(trgtArticle, changedArticle, (err, raw) => {
+            if(err){
+                console.log(err)
+                return
+            }
+            callback()
+        })
+    }
+
+    deleteArticle = (deletedArticle, callback) => {
+        article.deleteOne(deletedArticle, (err) => {
+            if(err){
+                console.log(err)
+                return
+            }
+            callback()
+        })
+    }
 }
 
 module.exports = new db()

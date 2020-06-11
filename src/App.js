@@ -19,20 +19,20 @@ class App extends React.Component {
 
   componentDidMount = () => {
     this.getArticleList((res) => {
-      this.setState({article_list: res})
+      this.setState({ article_list: res })
     })
   }
 
   getArticleList = (callback) => {
     fetch('http://localhost:3001/getArticleList')
-    .then((res) => {
-      return res.json()
-    })
-    .then((res) => {
-      if(callback !== undefined){
-        callback(res)
-      }
-    })
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (callback !== undefined) {
+          callback(res)
+        }
+      })
   }
 
   //for header
@@ -56,14 +56,14 @@ class App extends React.Component {
     var item = this.state.article_list.filter((item) => {
       return item._id === _id
     })
-    if(item.length === 0){
+    if (item.length === 0) {
       item = {
         _id: 0,
         title: this.state.header_title,
         desc: this.state.toggle.toString()
       }
     }
-    else{
+    else {
       item = item[0]
     }
     return item
@@ -76,63 +76,88 @@ class App extends React.Component {
   }
 
   createItem = (_item) => {
-    var len = this.state.article_list.length
-    var id = len === 0 ? 1 : this.state.article_list[len - 1]._id + 1
-    var copy_list = this.state.article_list.concat()
-    var newArticle = { _id: id, title: _item.title, desc: _item.desc }
-    copy_list.push(newArticle)
-
-    //console.log(JSON.stringify(newArticle))
-
     fetch('http://localhost:3001/createArticle', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'  
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newArticle)
+      body: JSON.stringify(_item)
     })
-    .then((res) => {
-      return res.json()
-    })
-    .then((res) => {
-      if(res === 'OK'){
-        this.setState({
-          article_list: copy_list,
-          selected_id: id
-        })
-      }
-    })
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res === 'OK') {
+          var copy_list = this.state.article_list.concat()
+          copy_list.push(_item)
+          this.setState({
+            article_list: copy_list,
+            selected_id: _item._id
+          })
+        }
+      })
   }
 
   updateItem = (_item) => {
-    var copy_list = this.state.article_list.concat()
-      for(var i in copy_list){
-        if(copy_list[i].id === _item.id){
-          copy_list[i].title = _item.title
-          copy_list[i].desc = _item.desc
-          break
+    fetch('http://localhost:3001/updateArticle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(_item)
+    })
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res === 'OK') {
+          var copy_list = this.state.article_list.concat()
+          for (var i in copy_list) {
+            if (copy_list[i]._id === _item._id) {
+              copy_list[i].title = _item.title
+              copy_list[i].desc = _item.desc
+              break
+            }
+          }
+          this.setState({
+            article_list: copy_list,
+            selected_id: _item._id
+          })
         }
-      }
-      this.setState({
-        article_list: copy_list,
-        selected_id: _item.id
       })
   }
 
   deleteItem = (_item) => {
-    var copy_list = this.state.article_list.concat()
-    copy_list = copy_list.filter(item => item.id !== _item.id)
-    this.setState({
-      article_list: copy_list,
-      selected_id: 0
+    fetch('http://localhost:3001/deleteArticle', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(_item)
     })
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res === 'OK') {
+          var copy_list = this.state.article_list.concat()
+          copy_list = copy_list.filter(item => item._id !== _item._id)
+          this.setState({
+            article_list: copy_list,
+            selected_id: 0
+          })
+        }
+      })
   }
 
   onClickSave = (_mode, _item) => {
-    if(_mode === 'CREATE'){
+    if (_mode === 'CREATE') {
+      var len = this.state.article_list.length
+      var newId = len === 0 ? 1 : this.state.article_list[len - 1]._id + 1
+      _item._id = newId
       this.createItem(_item)
     }
-    else if(_mode === 'UPDATE'){
+    else if (_mode === 'UPDATE') {
       this.updateItem(_item)
     }
   }
@@ -142,10 +167,10 @@ class App extends React.Component {
   }
 
   getArticle = () => {
-    if(this.state.mode === 'READ'){
+    if (this.state.mode === 'READ') {
       return this.getMainContent()
     }
-    else if(this.state.mode === 'CREATE' || this.state.mode === 'UPDATE'){
+    else if (this.state.mode === 'CREATE' || this.state.mode === 'UPDATE') {
       return this.getEditForm()
     }
   }
@@ -154,9 +179,9 @@ class App extends React.Component {
     var selected_item = this.findItemById(this.state.selected_id)
     return (
       <MainContent
-      selected_item={selected_item}
-      changeMode={this.changeMode}
-      onClickDelete={this.onClickDelete}
+        selected_item={selected_item}
+        changeMode={this.changeMode}
+        onClickDelete={this.onClickDelete}
       ></MainContent>
     )
   }
@@ -165,10 +190,10 @@ class App extends React.Component {
     var selected_item = this.findItemById(this.state.selected_id)
     return (
       <EditForm
-      mode={this.state.mode}
-      selected_item={selected_item}
-      changeMode={this.changeMode}
-      onClickSave={this.onClickSave}
+        mode={this.state.mode}
+        selected_item={selected_item}
+        changeMode={this.changeMode}
+        onClickSave={this.onClickSave}
       ></EditForm>
     )
   }

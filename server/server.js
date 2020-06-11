@@ -21,6 +21,20 @@ app.post('/createArticle', (req, res) => {
     })
 })
 
+app.post('/updateArticle', (req, res) => {
+    var changedArticle = req.body
+    db.updateArticle(changedArticle, () => {
+        res.json('OK')
+    })
+})
+
+app.post('/deleteArticle', (req, res) => {
+    var deletedArticle = req.body
+    db.deleteArticle(deletedArticle, () => {
+        res.json('OK')
+    })
+})
+
 app.listen(port, () => {
     console.log(`express is running on ${port}`);
 })
