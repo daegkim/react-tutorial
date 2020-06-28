@@ -6,6 +6,13 @@ const articleSchema = new mongoose.Schema({
     desc: String
 })
 
+const userSchema = new mongoose.Schema({
+    id: String,
+    password: String,
+    email: String
+})
+
 module.exports = {
-    article: mongoose.model('article', articleSchema, 'article')
+    article: mongoose.model('article', articleSchema, 'article'),
+    user: mongoose.model('user', userSchema, 'user')
 }

@@ -35,6 +35,13 @@ app.post('/deleteArticle', (req, res) => {
     })
 })
 
+app.post('/createUser', (req, res) => {
+    var newUser = req.body
+    db.createUser(newUser, () => {
+        res.json('OK')
+    })
+})
+
 app.listen(port, () => {
     console.log(`express is running on ${port}`);
 })

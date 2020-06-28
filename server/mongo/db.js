@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { article } = require('./schema')
+const { article, user } = require('./schema')
 
 /*
 This it for mongoose connection test & practice for CRUD
@@ -53,6 +53,17 @@ class db {
                 console.log(err)
                 return
             }
+            callback()
+        })
+    }
+
+    createUser = (newUser, callback) => {
+        user.create(newUser, (err) => {
+            if(err){
+                console.log(err)
+                return 
+            }
+            
             callback()
         })
     }

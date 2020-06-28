@@ -4,6 +4,7 @@ import Header from './components/Header'
 import MainContent from './components/MainContent'
 import EditForm from './components/EditForm'
 import List from './components/List'
+import util from './util'
 
 class App extends React.Component {
   constructor() {
@@ -151,6 +152,11 @@ class App extends React.Component {
   }
 
   onClickSave = (_mode, _item) => {
+    if(util.isNullorWhiteSpace(_item.title)){
+      alert('제목을 입력하세요')
+      return
+    }
+
     if (_mode === 'CREATE') {
       var len = this.state.article_list.length
       var newId = len === 0 ? 1 : this.state.article_list[len - 1]._id + 1

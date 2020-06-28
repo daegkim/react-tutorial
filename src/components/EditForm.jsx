@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'reactstrap';
 
 class EditForm extends React.Component {
   constructor(props) {
@@ -67,13 +68,13 @@ class EditForm extends React.Component {
           }.bind(this)}></textarea>
           <br />
         </form>
-        <button onClick={function(){
+        <Button size='sm' color='success' className="Buttons-crud" onClick={function(){
           this.props.onClickSave(this.props.mode, this.state.item)
           this.props.changeMode('READ')
-        }.bind(this)}>SAVE</button>
-        <button onClick={function(){
+        }.bind(this)}>SAVE</Button>
+        <Button size='sm' className="Buttons-crud" onClick={function(){
           this.props.changeMode('READ')
-        }.bind(this)}>CANCEL</button>
+        }.bind(this)}>CANCEL</Button>
       </div>
     )
   }
