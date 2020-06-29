@@ -2,7 +2,41 @@
   padding-top: 30px;
   text-align: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Header-title{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  font-weight: bold;
+  color: royalblue;
+  font-size: calc(10px + 3vmin);
+}
+
+.Header-sign{
+  grid-column-start: 3;
+  grid-column-end: 4;
+
+  display: inline-flex;
+  margin-top: 6px;
+}
+
+.Header-signin{
+  margin-right: 10px;
+}
+
+.Header-signup{
+  margin-right: 10px;
+}
+
+.Header-signin > p{
+  margin-top: 6px;
+  color: pink;
+  vertical-align: middle;
+  font-size: calc(10px + 1vmin);
 }
 
 .App-article {
@@ -17,8 +51,20 @@
   color: #61dafb;
 }
 
-.Title{
-  font-weight: bold;
-  color: royalblue;
-  font-size: calc(10px + 3vmin);
+.App-login{
+  text-align: right;
+}
+
+.Buttons-crud{
+  margin-right: 10px;
+  font-size: 5px;
+}
+
+.Modal-style{
+  font-size:10px;
+  color: black;
+}
+
+.Modal-label{
+  font-size:18px !important;
 }
