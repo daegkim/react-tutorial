@@ -46,6 +46,7 @@ class SignIn extends React.Component {
     }
 
     findUser = (_user, callback) => {
+        console.log(_user)
         fetch(`http://${config.ip}:3001/findUser`, {
             method: 'POST',
             headers: {

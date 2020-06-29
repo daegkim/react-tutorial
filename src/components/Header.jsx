@@ -13,7 +13,7 @@ class Header extends React.Component {
     }
 
     getHeaderSign = () => {
-        if(util.isNullorWhiteSpace(this.state.id)){
+        if(this.state.id !== undefined && util.isNullorWhiteSpace(this.state.id)){
             return (
                 <div className="Header-sign">
                     <SignIn onClickOk={(_res) => {
