@@ -45,7 +45,12 @@ app.post('/createUser', (req, res) => {
 app.post('/findUser', (req, res) => {
     var trgtUser = req.body
     db.findUser(trgtUser, (_res) => {
-        res.json({id: _res.id, email: _res.email})
+        if(_res !== null){
+            res.json({id: _res.id, email: _res.email})
+        }
+        else{
+            res.json(null)
+        }
     })
 })
 

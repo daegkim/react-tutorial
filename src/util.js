@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-
 class util{
     isNullorWhiteSpace = (_str) => {
         var result = false
