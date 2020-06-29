@@ -21,7 +21,7 @@
   grid-column-end: 4;
 
   display: inline-flex;
-  vertical-align: auto;
+  margin-top: 6px;
 }
 
 .Header-signin{
@@ -30,6 +30,13 @@
 
 .Header-signup{
   margin-right: 10px;
+}
+
+.Header-signin > p{
+  margin-top: 6px;
+  color: pink;
+  vertical-align: middle;
+  font-size: calc(10px + 1vmin);
 }
 
 .App-article {

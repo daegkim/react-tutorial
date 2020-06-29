@@ -42,6 +42,13 @@ app.post('/createUser', (req, res) => {
     })
 })
 
+app.post('/findUser', (req, res) => {
+    var trgtUser = req.body
+    db.findUser(trgtUser, (_res) => {
+        res.json({id: _res.id, email: _res.email})
+    })
+})
+
 app.listen(port, () => {
     console.log(`express is running on ${port}`);
 })

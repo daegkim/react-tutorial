@@ -67,6 +67,17 @@ class db {
             callback()
         })
     }
+
+    findUser = (trgtUser, callback) => {
+        user.findOne(trgtUser, (err, res) => {
+            if(err){
+                console.log(err)
+                return
+            }
+            
+            callback(res)
+        })
+    }
 }
 
 module.exports = new db()
