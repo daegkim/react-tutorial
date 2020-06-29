@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 import util from '../util';
 import crypto from 'crypto';
+import config from '../config.json'
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class SignIn extends React.Component {
     }
 
     findUser = (_user, callback) => {
-        fetch('http://localhost:3001/findUser', {
+        fetch(`http://${config.ip}:3001/findUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

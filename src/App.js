@@ -5,6 +5,7 @@ import MainContent from './components/MainContent'
 import EditForm from './components/EditForm'
 import List from './components/List'
 import util from './util'
+import config from './config.json'
 
 class App extends React.Component {
   constructor() {
@@ -25,7 +26,7 @@ class App extends React.Component {
   }
 
   getArticleList = (callback) => {
-    fetch('http://localhost:3001/getArticleList')
+    fetch(`http://${config.ip}:3001/getArticleList`)
       .then((res) => {
         return res.json()
       })
@@ -77,7 +78,7 @@ class App extends React.Component {
   }
 
   createItem = (_item) => {
-    fetch('http://localhost:3001/createArticle', {
+    fetch(`http://${config.ip}:3001/createArticle`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -100,7 +101,7 @@ class App extends React.Component {
   }
 
   updateItem = (_item) => {
-    fetch('http://localhost:3001/updateArticle', {
+    fetch(`http://${config.ip}:3001/updateArticle`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -129,7 +130,7 @@ class App extends React.Component {
   }
 
   deleteItem = (_item) => {
-    fetch('http://localhost:3001/deleteArticle', {
+    fetch(`http://${config.ip}:3001/deleteArticle`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

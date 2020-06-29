@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Col, FormText } from 'reactstrap';
 import util from '../util';
 import crypto from 'crypto';
+import config from '../config.json';
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -49,7 +50,7 @@ class SignUp extends React.Component {
     }
 
     createUser = (_user) => {
-        fetch('http://localhost:3001/createUser', {
+        fetch(`http://${config.ip}:3001/createUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
